@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public class PlayerShooting : MonoBehaviour
 {
@@ -13,21 +14,15 @@ public class PlayerShooting : MonoBehaviour
 
     private void Start()
     {
+        GameManager.input.Tank.Fire.performed += ctx => Shoot(ctx.ReadValue<float>()); //L ctx c'est context on se'en fou du nom
         for (int i = 0; i < poolnumber; i++)
         {
             MainBullet bulletTemp = Instantiate(bullet);
             bulletTemp.Init(this);
             bulletsInactive.Add(bulletTemp);
+            NetworkServer.Spawn(bulletTemp.gameObject);
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            Shoot();
-        }
     }
 
     public void UnregisterBullet(MainBullet self)
@@ -37,10 +32,10 @@ public class PlayerShooting : MonoBehaviour
         self.gameObject.SetActive(false);
     }
 
-    void Shoot()
+    void Shoot(float cc)
     {
         MainBullet bulletobj;
-        if (bulletsInactive.Count>0)
+        if (bulletsInactive.Count > 0)
         {
             bulletobj = (MainBullet)bulletsInactive.ToArray().GetValue(0);
             bulletsInactive.Remove(bulletobj);

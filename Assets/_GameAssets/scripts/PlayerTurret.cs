@@ -1,37 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class PlayerTurret : MonoBehaviour
+public class PlayerTurret : NetworkBehaviour
 {
     public float turnSpeed = 2f;
-    [SerializeField] bool usingMouse = true;
     [SerializeField] Camera cam;
     [SerializeField] Transform storedTransform;
+    [SerializeField] Transform turret;
 
     private void Start()
     {
+        if (isOwned) enabled = false;
         cam = Camera.main;
     }
     void Update()
     {
-        if (!usingMouse)
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0, Input.GetAxis("TurretTurn"), 0) * Time.deltaTime * turnSpeed + transform.rotation.eulerAngles);
-        }
-        else
-        {
-            RaycastHit hit;
+        RaycastHit hit;
 
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = cam.ScreenPointToRay(GameManager.input.Tank.Aim.ReadValue<Vector2>());
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                storedTransform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z), storedTransform.up);
-                Debug.Log(storedTransform.rotation.eulerAngles);
-                transform.rotation = Quaternion.Lerp(transform.rotation, storedTransform.rotation, Time.deltaTime * turnSpeed);
-            }
+        if (Physics.Raycast(ray, out hit))
+        {
+            storedTransform.LookAt(new Vector3(hit.point.x, turret.transform.position.y, hit.point.z), storedTransform.up);
+            Debug.Log(storedTransform.rotation.eulerAngles);
+            turret.transform.rotation = Quaternion.Lerp(turret.transform.rotation, storedTransform.rotation, Time.deltaTime * turnSpeed);
         }
-        
     }
 }

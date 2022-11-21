@@ -9,7 +9,7 @@ public class CameraControler : MonoBehaviour
     Vector3 offset;
     public List<Transform> players = new List<Transform>();
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         offset = transform.position;
         instance = this;

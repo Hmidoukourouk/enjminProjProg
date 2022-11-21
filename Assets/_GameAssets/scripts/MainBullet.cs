@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class MainBullet : MonoBehaviour
 {
-
+    public static System.Action<PlayerControler> onPlayerHit;
     public float speed = 2f;
     public bool alive;
     public PlayerShooting owner;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
         if (alive)
@@ -36,12 +30,13 @@ public class MainBullet : MonoBehaviour
             }
             if (other.CompareTag("Player"))
             {
-                other.gameObject.TryGetComponent<PlayerControler>(out PlayerControler shootingRef);
+                other.gameObject.TryGetComponent(out PlayerControler shootingRef);
                 if (shootingRef != null)
                 {
                     if (shootingRef.playerNumber != owner.playerNumber)
                     {
                         Debug.Log("player");
+                        onPlayerHit?.Invoke(shootingRef);
                         alive = false;
                         owner.UnregisterBullet(this);
                     }
