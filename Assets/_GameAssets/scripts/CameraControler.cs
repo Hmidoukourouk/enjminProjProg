@@ -25,6 +25,10 @@ public class CameraControler : MonoBehaviour
         Vector3 totalPos = Vector3.zero;
         foreach (Transform item in players)
         {
+            if (item == null)
+            {
+                players.Remove(item);
+            }
             totalPos += item.position;
         }
         Vector3 newPosition = totalPos / players.Count;

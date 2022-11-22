@@ -38,13 +38,14 @@ public class PlayerControler : NetworkBehaviour
 
         if (isClient && isOwned && isLocalPlayer)
         {
-            AssignClientAuth();
+            //AssignClientAuth();
         }
     }
 
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
+        /*
         if (!GameManager.GM.hostConnected)
         {
             GameManager.GM.hostConnected = true;
@@ -52,7 +53,7 @@ public class PlayerControler : NetworkBehaviour
         else
         {
             isNotControlable = true;
-        }
+        }*/
     }
 
     [Command]
