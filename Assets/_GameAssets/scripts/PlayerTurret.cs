@@ -25,7 +25,7 @@ public class PlayerTurret : NetworkBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             storedTransform.LookAt(new Vector3(hit.point.x, turret.transform.position.y, hit.point.z), storedTransform.up);
-            Debug.Log(storedTransform.rotation.eulerAngles);
+            //Debug.Log(storedTransform.rotation.eulerAngles);
             turret.transform.rotation = Quaternion.Lerp(turret.transform.rotation, storedTransform.rotation, Time.deltaTime * turnSpeed);
         }
     }

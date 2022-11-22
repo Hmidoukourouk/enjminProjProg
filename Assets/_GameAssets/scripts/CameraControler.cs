@@ -28,7 +28,7 @@ public class CameraControler : MonoBehaviour
             totalPos += item.position;
         }
         Vector3 newPosition = totalPos / players.Count;
-        Debug.Log(newPosition);
+        //Debug.Log(newPosition);
         transform.position = Vector3.Lerp(transform.position, new Vector3(newPosition.x, 0, newPosition.z)+offset, Time.deltaTime*speed);
     }
 }

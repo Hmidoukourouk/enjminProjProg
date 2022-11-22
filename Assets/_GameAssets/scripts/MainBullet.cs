@@ -23,7 +23,7 @@ public class MainBullet : MonoBehaviour
         {
             if (other.CompareTag("Wall"))
             {
-                Debug.Log("mur");
+                //Debug.Log("mur");
                 alive = false;
                 owner.UnregisterBullet(this);
 
@@ -35,7 +35,7 @@ public class MainBullet : MonoBehaviour
                 {
                     if (shootingRef.playerNumber != owner.playerNumber)
                     {
-                        Debug.Log("player");
+                        //Debug.Log("player");
                         onPlayerHit?.Invoke(shootingRef);
                         alive = false;
                         owner.UnregisterBullet(this);

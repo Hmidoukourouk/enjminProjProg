@@ -12,12 +12,9 @@ public class PlayerShooting : NetworkBehaviour
     public int playerNumber;
     [SerializeField] Transform spawnPoint;
 
-    private void Start()
+    public override void OnStartLocalPlayer()
     {
-        
-        if (!isLocalPlayer) enabled = false;
-
-        GameManager.input.Tank.Fire.performed += ctx => Shoot(ctx.ReadValue<float>()); //L ctx c'est context on se'en fou du nom
+        base.OnStartLocalPlayer();
         for (int i = 0; i < poolnumber; i++)
         {
             MainBullet bulletTemp = Instantiate(bullet);
@@ -25,6 +22,11 @@ public class PlayerShooting : NetworkBehaviour
             bulletsInactive.Add(bulletTemp);
             NetworkServer.Spawn(bulletTemp.gameObject);
         }
+
+        GameManager.input.Tank.Fire.performed += ctx => Shoot(ctx.ReadValue<float>()); //L ctx c'est context on se'en fou du nom en gros ça va read la valeur shoot
+    }
+    private void OnEnable()
+    {
 
     }
 
