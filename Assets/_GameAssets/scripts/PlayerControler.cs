@@ -30,7 +30,6 @@ public class PlayerControler : NetworkBehaviour
 
     void Start()
     {
-        if (!isLocalPlayer) enabled = false;
 
         rb = GetComponent<Rigidbody>();
         refShooting.playerNumber = playerNumber;
