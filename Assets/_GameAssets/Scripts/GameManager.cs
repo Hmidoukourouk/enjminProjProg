@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public bool hostConnected;
 
     public static InputsActions input;
+    public List<PlayerControler> players = new List<PlayerControler>();
     public static GameManager GM;
     private void OnEnable()
     {

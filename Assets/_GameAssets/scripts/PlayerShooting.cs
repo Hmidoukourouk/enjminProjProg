@@ -29,19 +29,6 @@ public class PlayerShooting : NetworkBehaviour
         GameManager.input.Tank.Fire.performed += ctx => Shoot(ctx.ReadValue<float>()); //L ctx c'est context on se'en fou du nom en gros ça va read la valeur shoot
     }
 
-    private void Start()
-    {/*
-        for (int i = 0; i < poolnumber; i++)
-        {
-            MainBullet bulletTemp = Instantiate(bullet);
-            bulletTemp.Init(this);
-            bulletsInactive.Add(bulletTemp);
-            NetworkServer.Spawn(bulletTemp.gameObject);
-        }*/
-        
-
-    }
-
     [Command]
     void SpawnBulletsClient()
     {
@@ -59,8 +46,7 @@ public class PlayerShooting : NetworkBehaviour
         for (int i = 0; i < poolnumber; i++)
         {
             MainBullet bulletTemp = Instantiate(bullet);
-            bulletTemp.Init(this);
-            bulletsInactive.Add(bulletTemp);
+            bulletTemp.Init(this); //le add bullets inactive est dans le script main bullet
             NetworkServer.Spawn(bulletTemp.gameObject);
         }
     }
@@ -77,12 +63,6 @@ public class PlayerShooting : NetworkBehaviour
         {
             UnregiterBulletClient(index);
         }
-        
-        //pour la suite jsp si on doit mais bon connais
-        /*
-        bullets.Remove(self);
-        bulletsInactive.Add(self);
-        self.gameObject.SetActive(false);*/
     }
 
     [ClientRpc]
@@ -99,10 +79,10 @@ public class PlayerShooting : NetworkBehaviour
 
     void UnregiterBulletEXEC(int index)
     {
-        MainBullet self = (MainBullet)bullets.ToArray().GetValue(index);
-        bullets.Remove(self);
-        bulletsInactive.Add(self);
-        self.gameObject.SetActive(false);
+        MainBullet bulletRef = (MainBullet)bullets.ToArray().GetValue(index);
+        bullets.Remove(bulletRef);
+        bulletsInactive.Add(bulletRef);
+        bulletRef.gameObject.SetActive(false);
     }
     void ShootEXEC()
     {
@@ -134,6 +114,7 @@ public class PlayerShooting : NetworkBehaviour
         if (authority)
         {
             ShootServeur();
+            ShootEXEC();
         }
         else
         {

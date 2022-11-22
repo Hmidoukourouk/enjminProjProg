@@ -53,6 +53,7 @@ public class MainBullet : MonoBehaviour
         alive = true;
         StopCoroutine(UnregisterOnDelay());
         StartCoroutine(UnregisterOnDelay());
+
     }
 
     IEnumerator UnregisterOnDelay()
@@ -68,7 +69,10 @@ public class MainBullet : MonoBehaviour
     public void Init(PlayerShooting playerShootingRef)
     {
         owner = playerShootingRef;
+        owner.bulletsInactive.Add(this);
         gameObject.SetActive(false);
     }
+
+
 
 }

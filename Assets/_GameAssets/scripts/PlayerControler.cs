@@ -30,30 +30,19 @@ public class PlayerControler : NetworkBehaviour
 
     void Start()
     {
+        if (!isLocalPlayer) enabled = false;
 
         rb = GetComponent<Rigidbody>();
         refShooting.playerNumber = playerNumber;
 
         CameraControler.instance.players.Add(transform);
 
-        if (isClient && isOwned && isLocalPlayer)
-        {
-            //AssignClientAuth();
-        }
+        GameManager.GM.players.Add(this);
     }
 
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        /*
-        if (!GameManager.GM.hostConnected)
-        {
-            GameManager.GM.hostConnected = true;
-        }
-        else
-        {
-            isNotControlable = true;
-        }*/
     }
 
     [Command]
