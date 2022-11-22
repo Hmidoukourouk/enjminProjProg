@@ -665,7 +665,7 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 3554590257021650437, guid: 2eca8a4ca37add64eb301f70a6812fe1, type: 3}
-  timeInterpolationGui: 0
+  timeInterpolationGui: 1
 --- !u!4 &747481417
 Transform:
   m_ObjectHideFlags: 0

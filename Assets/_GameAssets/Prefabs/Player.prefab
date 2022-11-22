@@ -283,6 +283,8 @@ GameObject:
   - component: {fileID: 4388314078739948983}
   - component: {fileID: 2380950268060198109}
   - component: {fileID: 7673895659669560168}
+  - component: {fileID: 1608938237994997012}
+  - component: {fileID: 2465045367785880711}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -343,7 +345,7 @@ MonoBehaviour:
   forwardSpeed: 5
   turnSpeed: 200
   canShoot: 0
-  refShooting: {fileID: 9000938753289353248}
+  refShooting: {fileID: 1608938237994997012}
   playerNumber: 2
 --- !u!65 &6115935244454353611
 BoxCollider:
@@ -400,8 +402,8 @@ MonoBehaviour:
   syncPosition: 1
   syncRotation: 1
   syncScale: 1
-  showGizmos: 0
-  showOverlay: 0
+  showGizmos: 1
+  showOverlay: 1
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!114 &7673895659669560168
 MonoBehaviour:
@@ -422,6 +424,55 @@ MonoBehaviour:
   cam: {fileID: 0}
   storedTransform: {fileID: 4505106833770579591}
   turret: {fileID: 6512046939934644857}
+--- !u!114 &1608938237994997012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3559814889448729141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334fffbefb968e640bd92dd94175e36f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  bullet: {fileID: 8159616842972962441, guid: 2eca8a4ca37add64eb301f70a6812fe1, type: 3}
+  bullets: []
+  bulletsInactive: []
+  poolnumber: 20
+  playerNumber: 0
+  spawnPoint: {fileID: 4260548601922833944}
+--- !u!114 &2465045367785880711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3559814889448729141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 6512046939934644857}
+  clientAuthority: 0
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+  syncPosition: 0
+  syncRotation: 1
+  syncScale: 0
+  showGizmos: 1
+  showOverlay: 1
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!1 &3606435207367208316
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,7 +712,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4260548601922833944}
-  - component: {fileID: 9000938753289353248}
   m_Layer: 0
   m_Name: shooting
   m_TagString: Untagged
@@ -684,23 +734,6 @@ Transform:
   m_Father: {fileID: 3125535258612743598}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9000938753289353248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4992442936543775127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 334fffbefb968e640bd92dd94175e36f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: {fileID: 8159616842972962441, guid: 2eca8a4ca37add64eb301f70a6812fe1, type: 3}
-  bullets: []
-  bulletsInactive: []
-  poolnumber: 20
-  playerNumber: 0
 --- !u!1 &5381760579045981876
 GameObject:
   m_ObjectHideFlags: 0

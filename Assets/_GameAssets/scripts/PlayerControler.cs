@@ -15,6 +15,7 @@ public class PlayerControler : NetworkBehaviour
     public PlayerShooting refShooting;
     public int playerNumber = 0;
     Rigidbody rb;
+    bool isNotControlable;
 
     private void Awake()
     {
@@ -22,7 +23,8 @@ public class PlayerControler : NetworkBehaviour
     }
     void Start()
     {
-        if (isOwned) enabled = false;
+
+        if (!isLocalPlayer) isNotControlable = true;
 
         rb = GetComponent<Rigidbody>();
         refShooting.playerNumber = playerNumber;
@@ -33,7 +35,7 @@ public class PlayerControler : NetworkBehaviour
 
     private void TakeDamage(PlayerControler playerControler)
     {
-        if (playerControler = this)
+        if (playerControler == this)
             return;
 
         TakeDamageCmd(5f);
@@ -46,14 +48,17 @@ public class PlayerControler : NetworkBehaviour
         health -= damage;
     }
     
-
     void FixedUpdate()
     {
-        Vector2 input = GameManager.input.Tank.Movement.ReadValue<Vector2>();
-        float vertical = input.y * Time.deltaTime * forwardSpeed;
-        float horizontal = input.x * Time.deltaTime * turnSpeed;
-        rb.transform.position = rb.transform.position + (rb.transform.forward * vertical);
-        rb.rotation = Quaternion.Euler(rb.rotation.eulerAngles + new Vector3(0, horizontal, 0));
+        if (!isNotControlable)
+        {
+            Vector2 input = GameManager.input.Tank.Movement.ReadValue<Vector2>();
+            float vertical = input.y * Time.deltaTime * forwardSpeed;
+            float horizontal = input.x * Time.deltaTime * turnSpeed;
+            rb.transform.position = rb.transform.position + (rb.transform.forward * vertical);
+            rb.rotation = Quaternion.Euler(rb.rotation.eulerAngles + new Vector3(0, horizontal, 0));
+        }
+
     }
 
 }

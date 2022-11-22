@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class PlayerShooting : MonoBehaviour
+public class PlayerShooting : NetworkBehaviour
 {
     public MainBullet bullet;
     public List<MainBullet> bullets = new List<MainBullet>();
     public List<MainBullet> bulletsInactive = new List<MainBullet>();
     public float poolnumber = 20;
     public int playerNumber;
-
+    [SerializeField] Transform spawnPoint;
 
     private void Start()
     {
+        
+        if (!isLocalPlayer) enabled = false;
+
         GameManager.input.Tank.Fire.performed += ctx => Shoot(ctx.ReadValue<float>()); //L ctx c'est context on se'en fou du nom
         for (int i = 0; i < poolnumber; i++)
         {
@@ -32,6 +35,7 @@ public class PlayerShooting : MonoBehaviour
         self.gameObject.SetActive(false);
     }
 
+
     void Shoot(float cc)
     {
         MainBullet bulletobj;
@@ -48,6 +52,6 @@ public class PlayerShooting : MonoBehaviour
             bullets.Add(bulletobj);
         }
         bulletobj.gameObject.SetActive(true);
-        bulletobj.Respawn(transform.position, transform.rotation);
+        bulletobj.Respawn(spawnPoint.position, spawnPoint.rotation);
     }
 }

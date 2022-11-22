@@ -12,7 +12,8 @@ public class PlayerTurret : NetworkBehaviour
 
     private void Start()
     {
-        if (isOwned) enabled = false;
+        if (!isLocalPlayer) enabled = false;
+
         cam = Camera.main;
     }
     void Update()
