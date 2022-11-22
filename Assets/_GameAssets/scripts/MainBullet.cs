@@ -58,7 +58,11 @@ public class MainBullet : MonoBehaviour
     IEnumerator UnregisterOnDelay()
     {
         yield return new WaitForSeconds(7f);
-        owner.UnregisterBullet(this);
+        if (owner.authority)
+        {
+            owner.UnregisterBullet(this);
+        }
+
     }
 
     public void Init(PlayerShooting playerShootingRef)

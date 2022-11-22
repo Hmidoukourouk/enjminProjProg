@@ -113,11 +113,17 @@ public class PlayerShooting : NetworkBehaviour
             bulletsInactive.Remove(bulletobj);
             bullets.Add(bulletobj);
         }
-        else
+        else if(bullets.Count>0)
         {
             bulletobj = (MainBullet)bullets.ToArray().GetValue(0);
             bullets.Remove(bulletobj);
             bullets.Add(bulletobj);
+        }
+        else
+        {
+            Debug.LogWarning("y a pas de bullets a utiliser !");
+            
+            return;
         }
         bulletobj.gameObject.SetActive(true);
         bulletobj.Respawn(spawnPoint.position, spawnPoint.rotation);
