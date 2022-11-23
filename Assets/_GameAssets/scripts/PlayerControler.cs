@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Mirror;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 
 public class PlayerControler : NetworkBehaviour
 {
     [SyncVar] public float health = 20f;
+    float healthMax;
+    float stretchMax;
     public float forwardSpeed = 1f;
     public float turnSpeed = 1f;
-    public bool canShoot;
+    [SerializeField] Image imgHeath;
     public PlayerShooting refShooting;
 
     public Rigidbody rb;
@@ -25,6 +28,8 @@ public class PlayerControler : NetworkBehaviour
 
     private void Awake()
     {
+        stretchMax = imgHeath.transform.localScale.x;
+        healthMax = health;
         MainBullet.onPlayerHit += TakeDamage;
     }
     public override void OnStartLocalPlayer()
@@ -57,6 +62,7 @@ public class PlayerControler : NetworkBehaviour
     private void TakeDamageCmd(float damage)
     {
         health -= damage;
+        imgHeath.transform.localScale = new Vector2(healthMax/health, imgHeath.transform.localScale.y);
     }
 
     void FixedUpdate()

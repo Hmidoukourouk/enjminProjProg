@@ -346,7 +346,7 @@ MonoBehaviour:
   health: 20
   forwardSpeed: 5
   turnSpeed: 200
-  canShoot: 0
+  imgHeath: {fileID: 3046828218773651589}
   refShooting: {fileID: 7218213667185253489}
   rb: {fileID: 2855848844539367105}
   isServ: 0
@@ -765,8 +765,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0}
-  m_SizeDelta: {x: 159.08, y: 16.12}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 46.64, y: 5.71}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1993120313503334966
 CanvasRenderer:
@@ -789,7 +789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.1966002, g: 0.8867924, b: 0.38158232, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1003,7 +1003,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6209447010496534479}
   m_LocalRotation: {x: -0.7071065, y: -0, z: -0, w: 0.7071071}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: -1.355}
   m_LocalScale: {x: 0.022865014, y: 0.022865014, z: 0.022865014}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1013,8 +1013,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.83}
-  m_SizeDelta: {x: 162.2288, y: 25.8329}
+  m_AnchoredPosition: {x: 0, y: 1.014}
+  m_SizeDelta: {x: 50.5481, y: 11.164}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5380739619554685721
 Canvas:
