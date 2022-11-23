@@ -12,4 +12,9 @@ public class NetworkMaster : NetworkManager
         base.Awake();
         instance = this;
     }
+
+    public void ConnectionWithIP()
+    {
+        
+    }
 }
