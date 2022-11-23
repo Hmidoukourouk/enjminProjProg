@@ -384,6 +384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hostConnected: 0
+  players: []
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

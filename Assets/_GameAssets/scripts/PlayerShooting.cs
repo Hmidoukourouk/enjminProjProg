@@ -12,6 +12,8 @@ public class PlayerShooting : NetworkBehaviour
     public int playerNumber;
     [SerializeField] Transform spawnPoint;
 
+    [SerializeField] Animator feedback;
+
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
@@ -60,6 +62,7 @@ public class PlayerShooting : NetworkBehaviour
         }
         bulletobj.gameObject.SetActive(true);
         bulletobj.Respawn(spawnPoint.position, spawnPoint.rotation);
+        feedback.SetTrigger("Shot");
 
     }
     //shoot call
