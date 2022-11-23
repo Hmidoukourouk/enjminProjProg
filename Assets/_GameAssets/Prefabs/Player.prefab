@@ -345,8 +345,8 @@ MonoBehaviour:
   forwardSpeed: 5
   turnSpeed: 200
   canShoot: 0
-  refShooting: {fileID: 0}
-  playerNumber: 2
+  refShooting: {fileID: 7218213667185253489}
+  rb: {fileID: 2855848844539367105}
   isServ: 0
   isCli: 0
   autho: 0

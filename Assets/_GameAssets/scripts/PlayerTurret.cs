@@ -12,15 +12,23 @@ public class PlayerTurret : NetworkBehaviour
 
     private void Start()
     {
-        if (!isLocalPlayer) enabled = false;
+        //if (!isLocalPlayer) enabled = false;
 
         cam = Camera.main;
     }
     void Update()
     {
-        RaycastHit hit;
+        if (!isLocalPlayer) return;
 
-        Ray ray = cam.ScreenPointToRay(GameManager.input.Tank.Aim.ReadValue<Vector2>());
+        Vector2 input = GameManager.input.Tank.Aim.ReadValue<Vector2>();
+        Ray ray = cam.ScreenPointToRay(input);
+        RotateTurretServeur(ray);
+    }
+
+    [Command]
+    void RotateTurretServeur(Ray ray)
+    {
+        RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit))
         {

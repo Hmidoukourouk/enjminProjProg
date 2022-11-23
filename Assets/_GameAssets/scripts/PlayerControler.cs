@@ -13,9 +13,9 @@ public class PlayerControler : NetworkBehaviour
     public float turnSpeed = 1f;
     public bool canShoot;
     public PlayerShooting refShooting;
-    public int playerNumber = 0;
-    Rigidbody rb;
-    bool isNotControlable;
+
+    public Rigidbody rb;
+    bool isNotControlable = true;
 
     [SerializeField] bool isServ;
     [SerializeField] bool isCli;
@@ -27,28 +27,22 @@ public class PlayerControler : NetworkBehaviour
     {
         MainBullet.onPlayerHit += TakeDamage;
     }
-
-    void Start()
-    {
-
-        rb = GetComponent<Rigidbody>();
-        refShooting.playerNumber = playerNumber;
-
-        CameraControler.instance.players.Add(transform);
-
-        GameManager.GM.players.Add(this);
-    }
-
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
+        
+        if (isLocalPlayer) CameraControler.instance.players.Add(transform);
+
+        GameManager.GM.players.Add(this);
+
+        isNotControlable = false;
     }
 
-    [Command]
-    void AssignClientAuth()
+    public int playerNumber()
     {
-        netIdentity.AssignClientAuthority(connectionToClient);
+        return refShooting.playerNumber;
     }
+
 
     private void TakeDamage(PlayerControler playerControler)
     {
@@ -79,12 +73,25 @@ public class PlayerControler : NetworkBehaviour
         Debug.Log(isServ + " " + autho + " " + isCli + " " + owneris + " " + localPlay);
 
         Vector2 input = GameManager.input.Tank.Movement.ReadValue<Vector2>();
+
+        MovingServeur(input);
+
+    }
+
+    [Command]
+    void MovingServeur(Vector2 input)
+    {
+        if (rb == null)
+        {
+            Debug.Log("bordel de rigidbody"); 
+            rb = GetComponent<Rigidbody>(); 
+            return;
+        }
+
         float vertical = input.y * Time.deltaTime * forwardSpeed;
         float horizontal = input.x * Time.deltaTime * turnSpeed;
         rb.transform.position = rb.transform.position + (rb.transform.forward * vertical);
         rb.rotation = Quaternion.Euler(rb.rotation.eulerAngles + new Vector3(0, horizontal, 0));
-
-
     }
 
 

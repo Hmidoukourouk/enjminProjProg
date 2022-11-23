@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour
     public static InputsActions input;
     public List<PlayerControler> players = new List<PlayerControler>();
     public static GameManager GM;
-    private void OnEnable()
+    private void Awake()
     {
+        GM = this;
         input = new();
         input.Enable();
     }

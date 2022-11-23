@@ -23,14 +23,21 @@ public class CameraControler : MonoBehaviour
             return;
         }
         Vector3 totalPos = Vector3.zero;
+        List<Transform> playerstemp = new List<Transform>();
+        playerstemp = players;
         foreach (Transform item in players)
         {
             if (item == null)
             {
-                players.Remove(item);
+                playerstemp.Remove(item);
             }
-            totalPos += item.position;
+            else
+            {
+                totalPos += item.position;
+            }
+            
         }
+        players = playerstemp;
         Vector3 newPosition = totalPos / players.Count;
         //Debug.Log(newPosition);
         transform.position = Vector3.Lerp(transform.position, new Vector3(newPosition.x, 0, newPosition.z)+offset, Time.deltaTime*speed);

@@ -16,32 +16,15 @@ public class PlayerShooting : NetworkBehaviour
     {
         base.OnStartLocalPlayer();
 
-        if (authority)
-        {
-            SpawnBulletsServeur();
-            SpawnExec();
-        }
-        else
-        {
-            SpawnBulletsClient();
-        }
+        playerNumber = (int)netId;
+        SpawnBullets();
 
-        GameManager.input.Tank.Fire.performed += ctx => Shoot(ctx.ReadValue<float>()); //L ctx c'est context on se'en fou du nom en gros ça va read la valeur shoot
+        if (!isLocalPlayer) return;
+        GameManager.input.Tank.Fire.performed += shootValue => Shoot(shootValue.ReadValue<float>()); //L ctx c'est context on se'en fou du nom en gros ça va read la valeur shoot
     }
 
     [Command]
-    void SpawnBulletsClient()
-    {
-        SpawnExec();
-    }
-
-    [ClientRpc]
-    void SpawnBulletsServeur()
-    {
-        SpawnExec();
-    }
-
-    void SpawnExec()
+    void SpawnBullets()
     {
         for (int i = 0; i < poolnumber; i++)
         {
@@ -51,40 +34,10 @@ public class PlayerShooting : NetworkBehaviour
         }
     }
 
-    public void UnregisterBullet(MainBullet self)
-    {
-        int index = bullets.IndexOf(self);
-        if (authority)
-        {
-            UnregiterBulletServeur(index);
-            UnregiterBulletEXEC(index);
-        }
-        else
-        {
-            UnregiterBulletClient(index);
-        }
-    }
-
-    [ClientRpc]
-    void UnregiterBulletServeur(int index)
-    {
-        UnregiterBulletEXEC(index);
-    }
+    //unregister bullet est dans le MainBullet
 
     [Command]
-    void UnregiterBulletClient(int index)
-    {
-        UnregiterBulletEXEC(index);
-    }
-
-    void UnregiterBulletEXEC(int index)
-    {
-        MainBullet bulletRef = (MainBullet)bullets.ToArray().GetValue(index);
-        bullets.Remove(bulletRef);
-        bulletsInactive.Add(bulletRef);
-        bulletRef.gameObject.SetActive(false);
-    }
-    void ShootEXEC()
+    void Shoot(float cc)
     {
         MainBullet bulletobj;
         if (bulletsInactive.Count > 0)
@@ -93,7 +46,7 @@ public class PlayerShooting : NetworkBehaviour
             bulletsInactive.Remove(bulletobj);
             bullets.Add(bulletobj);
         }
-        else if(bullets.Count>0)
+        else if (bullets.Count > 0)
         {
             bulletobj = (MainBullet)bullets.ToArray().GetValue(0);
             bullets.Remove(bulletobj);
@@ -102,36 +55,13 @@ public class PlayerShooting : NetworkBehaviour
         else
         {
             Debug.LogWarning("y a pas de bullets a utiliser !");
-            
+
             return;
         }
         bulletobj.gameObject.SetActive(true);
         bulletobj.Respawn(spawnPoint.position, spawnPoint.rotation);
-    }
-
-    void Shoot(float cc)
-    {
-        if (authority)
-        {
-            ShootServeur();
-            ShootEXEC();
-        }
-        else
-        {
-            ShootClient();
-        }
 
     }
     //shoot call
-    [ClientRpc]
-    void ShootServeur()
-    {
-        ShootEXEC();
-    }
 
-    [Command]
-    void ShootClient()
-    {
-        ShootEXEC();
-    }
 }

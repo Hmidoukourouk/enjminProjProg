@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public void OnClickJoin() => NetworkMaster.instance.StartClient();
+    public TMP_InputField input;
+    public void OnClickJoin()
+    {
+        NetworkMaster.instance.networkAddress = input.text;
+        NetworkMaster.instance.StartClient();
+    }
     public void OnClickHost() => NetworkMaster.instance.StartHost();
 }

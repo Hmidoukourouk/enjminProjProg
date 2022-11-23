@@ -24,8 +24,7 @@ public class MainBullet : MonoBehaviour
             if (other.CompareTag("Wall"))
             {
                 //Debug.Log("mur");
-                alive = false;
-                owner.UnregisterBullet(this);
+                Unregister();
 
             }
             if (other.CompareTag("Player"))
@@ -33,16 +32,25 @@ public class MainBullet : MonoBehaviour
                 other.gameObject.TryGetComponent(out PlayerControler shootingRef);
                 if (shootingRef != null)
                 {
-                    if (shootingRef.playerNumber != owner.playerNumber)
+                    if (shootingRef.playerNumber() != owner.playerNumber)
                     {
                         //Debug.Log("player");
                         onPlayerHit?.Invoke(shootingRef);
-                        alive = false;
-                        owner.UnregisterBullet(this);
+                        Unregister();
                     }
                 }
             }
         }
+
+    }
+
+    
+    void Unregister()
+    {
+        alive = false;
+        owner.bullets.Remove(this);
+        owner.bulletsInactive.Add(this);
+        gameObject.SetActive(false);
 
     }
 
@@ -61,7 +69,7 @@ public class MainBullet : MonoBehaviour
         yield return new WaitForSeconds(7f);
         if (owner.authority)
         {
-            owner.UnregisterBullet(this);
+            Unregister();
         }
 
     }
