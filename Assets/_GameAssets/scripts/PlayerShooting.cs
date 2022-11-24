@@ -34,9 +34,10 @@ public class PlayerShooting : NetworkBehaviour
         GameManager.input.Tank.Fire.performed += shootValue => Shoot(shootValue.ReadValue<float>()); //L ctx c'est context on se'en fou du nom en gros ça va read la valeur shoot
     }
 
-    [Command]
-    public void SpawnBullets()
+    public void SpawnBullets()//elle est appelée par une fonction qui a deja le [Command]
     {
+        bullets.Clear();
+        bulletsInactive.Clear();
         if (canShoot && isServer)
         {
             for (int i = 0; i < poolnumber; i++)
@@ -56,11 +57,8 @@ public class PlayerShooting : NetworkBehaviour
                     default:
                         return;//pas besion de spanw si c'est saw
                 }
-                
-
             }
         }
-
     }
 
     //unregister bullet est dans le MainBullet

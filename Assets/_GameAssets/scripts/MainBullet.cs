@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class MainBullet : MonoBehaviour
+public class MainBullet : NetworkBehaviour
 {
-    public static System.Action<PlayerControler> onPlayerHit;
     public float speed = 2f;
     public bool alive;
     [HideInInspector]public bool isNotBaseBullet;
     public PlayerShooting owner;
+
+    public float damage = 5f;
 
     
     //valeurs pour mortar bullet
     [HideInInspector]public Vector3 clickedArea;
     [HideInInspector]public Vector3 basePos;
     [HideInInspector]public float t;
+    [HideInInspector]public float speedOffset = 0;
 
     void Update()
     {
@@ -41,8 +44,7 @@ public class MainBullet : MonoBehaviour
                 {
                     if (shootingRef.playerNumber() != owner.playerNumber)
                     {
-                        //Debug.Log("player");
-                        onPlayerHit?.Invoke(shootingRef);
+                        shootingRef.TakeDamage(damage);
                         Unregister();
                     }
                 }
@@ -51,14 +53,13 @@ public class MainBullet : MonoBehaviour
 
     }
 
-    
+
     public void Unregister()
     {
         alive = false;
         owner.bullets.Remove(this);
         owner.bulletsInactive.Add(this);
         gameObject.SetActive(false);
-
     }
 
     public void Respawn(Vector3 pos, Quaternion rota)
@@ -73,12 +74,8 @@ public class MainBullet : MonoBehaviour
 
     IEnumerator UnregisterOnDelay()
     {
-        yield return new WaitForSeconds(7f);
-        if (owner.authority)
-        {
-            Unregister();
-        }
-
+        yield return new WaitForSeconds(4f);
+        Unregister();
     }
 
     public void Init(PlayerShooting playerShootingRef)
@@ -91,6 +88,7 @@ public class MainBullet : MonoBehaviour
 
     void SoftReset()
     {
+        speedOffset = Vector3.Distance(basePos, clickedArea);
         t = 0;
         basePos = transform.position;
     }

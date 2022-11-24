@@ -30,7 +30,6 @@ public class PlayerControler : NetworkBehaviour
     {
         stretchMax = imgHeath.transform.localScale.x;
         healthMax = health;
-        MainBullet.onPlayerHit += TakeDamage;
     }
     public override void OnStartLocalPlayer()
     {
@@ -49,12 +48,10 @@ public class PlayerControler : NetworkBehaviour
     }
 
 
-    private void TakeDamage(PlayerControler playerControler)
+    public void TakeDamage(float damage)
     {
-        if (playerControler == this)
-            return;
 
-        TakeDamageCmd(5f);
+        TakeDamageCmd(damage);
     }
 
     [Command]
@@ -63,6 +60,10 @@ public class PlayerControler : NetworkBehaviour
     {
         health -= damage;
         imgHeath.transform.localScale = new Vector2(healthMax/health, imgHeath.transform.localScale.y);
+        if (health<=0)
+        {
+            imgHeath.color = Color.red;
+        }
     }
 
     void FixedUpdate()

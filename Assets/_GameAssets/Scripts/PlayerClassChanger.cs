@@ -22,15 +22,43 @@ public class PlayerClassChanger : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
+
         base.OnStartLocalPlayer();
 
+        if (authority)
+        {
+            CastAll();
+        }
+        else
+        {
+            CastAllCmd();
+        }
+
         Debug.Log(MainMenu.menuValues == null);
-        ChangeClass(MainMenu.menuValues.tankNumber);
+        
+        //ChangeCla(MainMenu.menuValues.tankNumber);
     }
 
+    void CastAll()
+    {
+        foreach (PlayerClassChanger item in GameObject.FindObjectsOfType<PlayerClassChanger>())
+        {
+            item.ChangeClassServ(MainMenu.menuValues.tankNumber);
+        }
+    }
+    [Command]
+    void CastAllCmd()
+    {
+        CastAll();
+    }
 
     [Command]
-    public void ChangeClass(int claN)
+    public void ChangeClassServ(int claN)
+    {
+        ChangeCla(claN);
+    }
+
+    void ChangeCla(int claN)
     {
         toHide.Clear();
 
