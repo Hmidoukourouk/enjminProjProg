@@ -5,12 +5,20 @@ using Mirror;
 
 public class PlayerShooting : NetworkBehaviour
 {
-    public MainBullet bullet;
+    public MainBullet baseBullet;
+    public MortarBullet mortarBullet;
     public List<MainBullet> bullets = new List<MainBullet>();
     public List<MainBullet> bulletsInactive = new List<MainBullet>();
     public float poolnumber = 20;
     public int playerNumber;
-    [SerializeField] Transform spawnPoint;
+
+    public int shootMode;
+
+    public PlayerTurret turretRef;
+
+    public bool canShoot = true;
+
+    public Transform spawnPoint;
 
     [SerializeField] Animator feedback;
 
@@ -19,21 +27,40 @@ public class PlayerShooting : NetworkBehaviour
         base.OnStartLocalPlayer();
 
         playerNumber = (int)netId;
-        SpawnBullets();
+
+        // SpawnBullets appelé dans playerClass
 
         if (!isLocalPlayer) return;
         GameManager.input.Tank.Fire.performed += shootValue => Shoot(shootValue.ReadValue<float>()); //L ctx c'est context on se'en fou du nom en gros ça va read la valeur shoot
     }
 
     [Command]
-    void SpawnBullets()
+    public void SpawnBullets()
     {
-        for (int i = 0; i < poolnumber; i++)
+        if (canShoot)
         {
-            MainBullet bulletTemp = Instantiate(bullet);
-            bulletTemp.Init(this); //le add bullets inactive est dans le script main bullet
-            NetworkServer.Spawn(bulletTemp.gameObject);
+            for (int i = 0; i < poolnumber; i++)
+            {
+                switch (shootMode)
+                {
+                    case 0:
+                        MainBullet bulletTemp = Instantiate(baseBullet);
+                        bulletTemp.Init(this);
+                        NetworkServer.Spawn(bulletTemp.gameObject);
+                        break;
+                    case 1:
+                        MortarBullet mortarTemp = Instantiate(mortarBullet);
+                        mortarTemp.Init(this);
+                        NetworkServer.Spawn(mortarTemp.gameObject);
+                        break;
+                    default:
+                        return;//pas besion de spanw si c'est saw
+                }
+                
+
+            }
         }
+
     }
 
     //unregister bullet est dans le MainBullet
@@ -41,28 +68,33 @@ public class PlayerShooting : NetworkBehaviour
     [Command]
     void Shoot(float cc)
     {
-        MainBullet bulletobj;
-        if (bulletsInactive.Count > 0)
+        if (canShoot)
         {
-            bulletobj = (MainBullet)bulletsInactive.ToArray().GetValue(0);
-            bulletsInactive.Remove(bulletobj);
-            bullets.Add(bulletobj);
-        }
-        else if (bullets.Count > 0)
-        {
-            bulletobj = (MainBullet)bullets.ToArray().GetValue(0);
-            bullets.Remove(bulletobj);
-            bullets.Add(bulletobj);
-        }
-        else
-        {
-            Debug.LogWarning("y a pas de bullets a utiliser !");
+            MainBullet bulletobj;
+            if (bulletsInactive.Count > 0)
+            {
+                bulletobj = (MainBullet)bulletsInactive.ToArray().GetValue(0);
+                bulletsInactive.Remove(bulletobj);
+                bullets.Add(bulletobj);
+            }
+            else if (bullets.Count > 0)
+            {
+                bulletobj = (MainBullet)bullets.ToArray().GetValue(0);
+                bullets.Remove(bulletobj);
+                bullets.Add(bulletobj);
+            }
+            else
+            {
+                Debug.LogWarning("y a pas de bullets a utiliser !");
 
-            return;
+                return;
+            }
+            bulletobj.clickedArea = turretRef.hitLocation;
+            bulletobj.gameObject.SetActive(true);
+            bulletobj.Respawn(spawnPoint.position, spawnPoint.rotation);
+            feedback.SetTrigger("Shot");
         }
-        bulletobj.gameObject.SetActive(true);
-        bulletobj.Respawn(spawnPoint.position, spawnPoint.rotation);
-        feedback.SetTrigger("Shot");
+
 
     }
     //shoot call

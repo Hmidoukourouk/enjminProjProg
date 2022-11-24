@@ -14,12 +14,15 @@ public class MainMenu : MonoBehaviour
     public static MainMenu menuValues;
     public void OnClickJoin()
     {
+        
+        DontDestroyOnLoad(this.gameObject);
         tankNumber = int.Parse(tankNumberField.text);
-        Debug.Log(tankNumberField.text);// le parse fail et il detecte r ici non plus sdfsdfsdf
+        Debug.Log(tankNumberField.text);
+
         ipAdress = inputField.text;
 
         menuValues = this;
-        DontDestroyOnLoad(this.gameObject);
+        
 
         NetworkMaster.instance.networkAddress = ipAdress;
         NetworkMaster.instance.StartClient();
@@ -28,6 +31,12 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         menuValues = this;
+    }
+
+    public void TestTankN()
+    {
+        tankNumber = int.Parse(tankNumberField.text);
+        Debug.Log(tankNumberField.text + " aaaa");// le parse marche
     }
 
     public void OnClickHost() => NetworkMaster.instance.StartHost();

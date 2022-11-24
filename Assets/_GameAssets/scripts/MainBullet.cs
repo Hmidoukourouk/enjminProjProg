@@ -7,11 +7,18 @@ public class MainBullet : MonoBehaviour
     public static System.Action<PlayerControler> onPlayerHit;
     public float speed = 2f;
     public bool alive;
+    [HideInInspector]public bool isNotBaseBullet;
     public PlayerShooting owner;
+
+    
+    //valeurs pour mortar bullet
+    [HideInInspector]public Vector3 clickedArea;
+    [HideInInspector]public Vector3 basePos;
+    [HideInInspector]public float t;
 
     void Update()
     {
-        if (alive)
+        if (alive && !isNotBaseBullet)
         {
             transform.position += transform.forward * speed * Time.deltaTime;
         }
@@ -45,7 +52,7 @@ public class MainBullet : MonoBehaviour
     }
 
     
-    void Unregister()
+    public void Unregister()
     {
         alive = false;
         owner.bullets.Remove(this);
@@ -61,7 +68,7 @@ public class MainBullet : MonoBehaviour
         alive = true;
         StopCoroutine(UnregisterOnDelay());
         StartCoroutine(UnregisterOnDelay());
-
+        SoftReset();
     }
 
     IEnumerator UnregisterOnDelay()
@@ -79,6 +86,13 @@ public class MainBullet : MonoBehaviour
         owner = playerShootingRef;
         owner.bulletsInactive.Add(this);
         gameObject.SetActive(false);
+        SoftReset();
+    }
+
+    void SoftReset()
+    {
+        t = 0;
+        basePos = transform.position;
     }
 
 

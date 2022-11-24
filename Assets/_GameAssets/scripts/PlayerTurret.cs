@@ -10,6 +10,8 @@ public class PlayerTurret : NetworkBehaviour
     [SerializeField] Transform storedTransform;
     [SerializeField] Transform turret;
 
+    [SyncVar][HideInInspector] public Vector3 hitLocation;
+
     private void Start()
     {
         //if (!isLocalPlayer) enabled = false;
@@ -35,6 +37,8 @@ public class PlayerTurret : NetworkBehaviour
             storedTransform.LookAt(new Vector3(hit.point.x, turret.transform.position.y, hit.point.z), storedTransform.up);
 
             turret.transform.rotation = Quaternion.Lerp(turret.transform.rotation, storedTransform.rotation, Time.deltaTime * turnSpeed);
+
+            hitLocation = hit.point;
         }
     }
 }

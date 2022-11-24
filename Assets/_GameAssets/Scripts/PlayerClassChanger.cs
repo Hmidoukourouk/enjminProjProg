@@ -9,10 +9,13 @@ public class PlayerClassChanger : NetworkBehaviour
 
     [Header("0 base, 1 mortar, 2 melee")]
     public GameObject[] baseTank;
+    public GameObject baseBulletRef;
     public GameObject[] mortarTank;
+    public GameObject mortarBulletRef;
     public GameObject[] meleeTank;
 
     [SerializeField] PlayerControler player;
+    [SerializeField] Transform[] shootPoints;
 
     List<GameObject> toHide = new List<GameObject>();
     // Start is called before the first frame update
@@ -36,25 +39,31 @@ public class PlayerClassChanger : NetworkBehaviour
 
         GameObject[] toReveal;
 
+        GameObject bulletToReplace;
+
         switch (newCla.shootMode)
         {
             case 0:
                 AddToDelete(mortarTank);
                 AddToDelete(meleeTank);
                 toReveal = baseTank;
+                bulletToReplace = baseBulletRef;
                 break;
             case 1:
                 AddToDelete(baseTank);
                 AddToDelete(meleeTank);
                 toReveal = mortarTank;
+                bulletToReplace = mortarBulletRef;
                 break;
             case 2:
                 AddToDelete(mortarTank);
                 AddToDelete(baseTank);
                 toReveal = meleeTank;
+                bulletToReplace = null;
                 break;
             default:
                 toReveal = baseTank;
+                bulletToReplace = baseBulletRef;
                 break;
         }
 
@@ -66,6 +75,15 @@ public class PlayerClassChanger : NetworkBehaviour
         {
             item.SetActive(true);
         }
+
+        if (bulletToReplace == null)
+        {
+            player.refShooting.canShoot = false;
+        }
+
+        player.refShooting.spawnPoint = (Transform)shootPoints.GetValue(newCla.shootMode); // changement point de spawn
+        player.refShooting.shootMode = newCla.shootMode;
+        player.refShooting.SpawnBullets();
 
         player.forwardSpeed = newCla.forwardSpeed;
         player.turnSpeed = newCla.turnSpeed;
