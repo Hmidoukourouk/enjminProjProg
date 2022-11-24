@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Melee
   m_EditorClassIdentifier: 
   tankName: Melee
-  tourelle: {fileID: 2453534225869642336, guid: 8d7c4ed2afc06b848aa0c7a52fc6f3ef,
-    type: 3}
-  corp: {fileID: -8545447256379345787, guid: 8d7c4ed2afc06b848aa0c7a52fc6f3ef, type: 3}
-  chenilles: {fileID: -1280552123910407799, guid: 8d7c4ed2afc06b848aa0c7a52fc6f3ef,
-    type: 3}
+  shootMode: 2
+  forwardSpeed: 10
+  turnSpeed: 350

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: metal_mat
+  m_Name: MortarTank_mat
   m_Shader: {fileID: -6465566751694194690, guid: bf3b0601683f5fa49a1f3688f0de0ffd,
     type: 3}
   m_ValidKeywords: []
@@ -49,13 +49,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _DividePower: 50
-    - _Metalic: 1
+    - _Metalic: 0
     - _MuliplyTest: 1
     - _NoiseScale: 0.2
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: 0.6
+    - _Smoothness: 0.59
     - _Speed: 40
     m_Colors:
-    - _BaseColor: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 0}
+    - _BaseColor: {r: 0.81960785, g: 0.5578056, b: 0.11372549, a: 0}
   m_BuildTextureStacks: []

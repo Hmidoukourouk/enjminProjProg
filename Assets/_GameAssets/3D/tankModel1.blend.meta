@@ -13,7 +13,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: camoBase
-    second: {fileID: 2100000, guid: 6929367be7e43b4439533501c42a6f83, type: 2}
+    second: {fileID: 2100000, guid: 511dd37b9ac01854aaabbabe26e70690, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

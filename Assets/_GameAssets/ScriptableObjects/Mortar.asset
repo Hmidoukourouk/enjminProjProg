@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Mortar
   m_EditorClassIdentifier: 
   tankName: Mortar
-  tourelle: {fileID: 2453534225869642336, guid: 8af2262f679c247429570bbe566cab2f,
-    type: 3}
-  corp: {fileID: -8545447256379345787, guid: 8af2262f679c247429570bbe566cab2f, type: 3}
-  chenilles: {fileID: -1280552123910407799, guid: 8af2262f679c247429570bbe566cab2f,
-    type: 3}
+  shootMode: 1
+  forwardSpeed: 3
+  turnSpeed: 120

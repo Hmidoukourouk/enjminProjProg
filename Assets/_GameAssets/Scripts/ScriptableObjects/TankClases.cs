@@ -5,8 +5,8 @@ public class TankClases : ScriptableObject
 {
     public string tankName = "NewTankConfig";
 
-    
-    public Mesh tourelle;
-    public Mesh corp;
-    public Mesh chenilles;
+    [Header("0 classic 1 mortar 2 saw")]
+    public int shootMode;
+    public float forwardSpeed = 5f;
+    public float turnSpeed = 200f;
 }

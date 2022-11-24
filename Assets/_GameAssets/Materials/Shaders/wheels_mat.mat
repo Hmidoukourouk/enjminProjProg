@@ -48,7 +48,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DividePower: 100
+    - _DividePower: 50
     - _Metalic: 0
     - _MuliplyTest: 1
     - _NoiseScale: 0.2

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: caroserie_mat
+  m_Name: BaseTank_mat
   m_Shader: {fileID: -6465566751694194690, guid: bf3b0601683f5fa49a1f3688f0de0ffd,
     type: 3}
   m_ValidKeywords: []
@@ -48,7 +48,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DividePower: 100
+    - _DividePower: 50
     - _Metalic: 0
     - _MuliplyTest: 1
     - _NoiseScale: 0.2
@@ -57,5 +57,5 @@ Material:
     - _Smoothness: 0.6
     - _Speed: 40
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.6792453, b: 0.11644212, a: 0}
+    - _BaseColor: {r: 0.03355288, g: 0.5471698, b: 0.122619405, a: 0}
   m_BuildTextureStacks: []
