@@ -37,7 +37,7 @@ public class PlayerShooting : NetworkBehaviour
     [Command]
     public void SpawnBullets()
     {
-        if (canShoot)
+        if (canShoot && isServer)
         {
             for (int i = 0; i < poolnumber; i++)
             {
