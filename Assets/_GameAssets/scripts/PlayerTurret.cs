@@ -10,11 +10,15 @@ public class PlayerTurret : NetworkBehaviour
     [SerializeField] Transform storedTransform;
     [SerializeField] Transform turret;
 
+    [SerializeField] [SyncVar] Quaternion rotaTemp;
+
     [SyncVar][HideInInspector] public Vector3 hitLocation;
 
     private void Start()
     {
-        //if (!isLocalPlayer) enabled = false;
+        if (!isLocalPlayer) enabled = false;
+
+        netIdentity.AssignClientAuthority(connectionToClient); // donner le controle au client
 
         cam = Camera.main;
     }
@@ -24,21 +28,31 @@ public class PlayerTurret : NetworkBehaviour
 
         Vector2 input = GameManager.input.Tank.Aim.ReadValue<Vector2>();
         Ray ray = cam.ScreenPointToRay(input);
-        RotateTurretServeur(ray);
+        RotateTurret(ray);
     }
-
-    [Command]
-    void RotateTurretServeur(Ray ray)
+    void RotateTurret(Ray ray)
     {
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit))
         {
             storedTransform.LookAt(new Vector3(hit.point.x, turret.transform.position.y, hit.point.z), storedTransform.up);
+            storedTransform.localRotation = Quaternion.Euler(0, storedTransform.localRotation.eulerAngles.y, 0);
 
-            turret.transform.rotation = Quaternion.Lerp(turret.transform.rotation, storedTransform.rotation, Time.deltaTime * turnSpeed);
+            //turret.transform.localRotation = Quaternion.Lerp(turret.transform.localRotation, storedTransform.localRotation, Time.deltaTime * turnSpeed);
+            
+            rotaTemp = Quaternion.Lerp(rotaTemp, storedTransform.localRotation, Time.deltaTime * turnSpeed);
+
+            CastServ(rotaTemp);
 
             hitLocation = hit.point;
         }
     }
+
+[Command]
+    void CastServ(Quaternion rota)
+    {
+        turret.transform.localRotation = rota;
+    }
+
 }

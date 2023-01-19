@@ -7,17 +7,17 @@ public class MainBullet : NetworkBehaviour
 {
     public float speed = 2f;
     public bool alive;
-    [HideInInspector]public bool isNotBaseBullet;
+    [HideInInspector] public bool isNotBaseBullet;
     public PlayerShooting owner;
 
     public float damage = 5f;
 
-    
+
     //valeurs pour mortar bullet
-    [HideInInspector]public Vector3 clickedArea;
-    [HideInInspector]public Vector3 basePos;
-    [HideInInspector]public float t;
-    [HideInInspector]public float speedOffset = 0;
+    [HideInInspector] public Vector3 clickedArea;
+    [HideInInspector] public Vector3 basePos;
+    [HideInInspector] public float t;
+    [HideInInspector] public float speedOffset = 0;
 
     void Update()
     {
@@ -53,6 +53,11 @@ public class MainBullet : NetworkBehaviour
 
     }
 
+    private void Awake()
+    {
+
+    }
+
 
     public void Unregister()
     {
@@ -79,6 +84,17 @@ public class MainBullet : NetworkBehaviour
     }
 
     public void Init(PlayerShooting playerShootingRef)
+    {
+        owner = playerShootingRef;
+        owner.bulletsInactive.Add(this);
+        gameObject.SetActive(false);
+        SoftReset();
+
+        InitCast(playerShootingRef);
+    }
+
+    [Command]
+    void InitCast(PlayerShooting playerShootingRef)
     {
         owner = playerShootingRef;
         owner.bulletsInactive.Add(this);

@@ -54,6 +54,11 @@ public class PlayerControler : NetworkBehaviour
         TakeDamageCmd(damage);
     }
 
+    private void Start()
+    {
+        if (!isLocalPlayer) enabled = false;
+    }
+
     [Command]
     //[ClientRpc]
     private void TakeDamageCmd(float damage)
@@ -82,7 +87,6 @@ public class PlayerControler : NetworkBehaviour
         Vector2 input = GameManager.input.Tank.Movement.ReadValue<Vector2>();
 
         MovingServeur(input);
-
     }
 
     [Command]
