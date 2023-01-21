@@ -12,8 +12,8 @@ public class PlayerControler : NetworkBehaviour
     [SyncVar] public float health = 20f;
     float healthMax;
     float stretchMax;
-    public float forwardSpeed = 1f;
-    public float turnSpeed = 1f;
+    [SyncVar]public float forwardSpeed = 1f;
+    [SyncVar]public float turnSpeed = 1f;
     [SerializeField] Image imgHeath;
     public PlayerShooting refShooting;
 
@@ -25,6 +25,11 @@ public class PlayerControler : NetworkBehaviour
     [SerializeField] bool autho;
     [SerializeField] bool owneris;
     [SerializeField] bool localPlay;
+
+
+
+    Vector3 tempPos;
+    Quaternion tempRot;
 
     private void Awake()
     {
@@ -40,6 +45,10 @@ public class PlayerControler : NetworkBehaviour
         GameManager.GM.players.Add(this);
 
         isNotControlable = false;
+
+        AssignAuth(connectionToClient);
+
+        //if (!isLocalPlayer) enabled = false; //pas besoin
     }
 
     public int playerNumber()
@@ -48,24 +57,26 @@ public class PlayerControler : NetworkBehaviour
     }
 
 
-    public void TakeDamage(float damage)
-    {
-
-        TakeDamageCmd(damage);
-    }
-
-    private void Start()
-    {
-        if (!isLocalPlayer) enabled = false;
-    }
-
     [Command]
-    //[ClientRpc]
-    private void TakeDamageCmd(float damage)
+    void AssignAuth(NetworkConnectionToClient con) {
+        netIdentity.AssignClientAuthority(con);
+    }
+
+
+    public void TakeDmg(float damage)
     {
+        Debug.Log(health);
         health -= damage;
-        imgHeath.transform.localScale = new Vector2(healthMax/health, imgHeath.transform.localScale.y);
-        if (health<=0)
+
+        ActualizeHUD();
+    }
+
+   
+    [ClientRpc]
+    void ActualizeHUD()
+    {
+        imgHeath.transform.localScale = new Vector2(healthMax / health, imgHeath.transform.localScale.y);
+        if (health <= 0)
         {
             imgHeath.color = Color.red;
         }
@@ -82,15 +93,14 @@ public class PlayerControler : NetworkBehaviour
 
         if (!isLocalPlayer || isNotControlable) { return; };
 
-        Debug.Log(isServ + " " + autho + " " + isCli + " " + owneris + " " + localPlay);
+        //Debug.Log(isServ + " " + autho + " " + isCli + " " + owneris + " " + localPlay);
 
         Vector2 input = GameManager.input.Tank.Movement.ReadValue<Vector2>();
 
-        MovingServeur(input);
+        Moving(input);
     }
 
-    [Command]
-    void MovingServeur(Vector2 input)
+    void Moving(Vector2 input)
     {
         if (rb == null)
         {
@@ -99,11 +109,23 @@ public class PlayerControler : NetworkBehaviour
             return;
         }
 
+        tempPos = rb.transform.position;
+        tempRot = rb.transform.rotation;
+
         float vertical = input.y * Time.deltaTime * forwardSpeed;
         float horizontal = input.x * Time.deltaTime * turnSpeed;
-        rb.transform.position = rb.transform.position + (rb.transform.forward * vertical);
-        rb.rotation = Quaternion.Euler(rb.rotation.eulerAngles + new Vector3(0, horizontal, 0));
+        tempPos = tempPos + (rb.transform.forward * vertical);
+        tempRot = Quaternion.Euler(tempRot.eulerAngles + new Vector3(0, horizontal, 0));
+        rb.transform.position = tempPos;
+        rb.transform.rotation = tempRot;
+        //MovingServeur(rb.transform.position, rb.transform.rotation);
     }
 
-
+    //en gros ça clip dans les mur comme on bouge plus le rb mais une valeur hardcodée
+[Command]
+    void MovingServeur(Vector3 pos, Quaternion rot)
+    {
+        rb.transform.position = pos;
+        rb.transform.rotation = rot;
+    }
 }

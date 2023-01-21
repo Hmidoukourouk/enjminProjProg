@@ -25,38 +25,46 @@ public class PlayerClassChanger : NetworkBehaviour
 
         base.OnStartLocalPlayer();
 
-        if (authority)
-        {
-            CastAll();
-        }
-        else
-        {
-            CastAllCmd();
-        }
+        
 
         Debug.Log(MainMenu.menuValues == null);
-        
+
         //ChangeCla(MainMenu.menuValues.tankNumber);
+
+        CastAllCmd();
+        /*
+        if (isLocalPlayer)
+        {
+            if (authority)
+            {
+                CastAll();
+                Debug.Log("auth");
+            }
+            else
+            {
+                CastAllCmd();
+                Debug.Log("pasauth");
+
+            }
+        }*/
     }
 
     void CastAll()
     {
         foreach (PlayerClassChanger item in GameObject.FindObjectsOfType<PlayerClassChanger>())
         {
-            item.ChangeClassServ(MainMenu.menuValues.tankNumber);
+            Debug.Log(authority);
+            item.ChangeCla(MainMenu.menuValues.tankNumber);
         }
     }
+
+
     [Command]
     void CastAllCmd()
     {
         CastAll();
     }
 
-    [Command]
-    public void ChangeClassServ(int claN)
-    {
-        ChangeCla(claN);
-    }
 
     void ChangeCla(int claN)
     {
@@ -115,6 +123,9 @@ public class PlayerClassChanger : NetworkBehaviour
 
         player.forwardSpeed = newCla.forwardSpeed;
         player.turnSpeed = newCla.turnSpeed;
+
+
+        NetworkServer.SpawnObjects();
     }
 
     void AddToDelete(GameObject[] listToAdd)
@@ -124,4 +135,5 @@ public class PlayerClassChanger : NetworkBehaviour
             toHide.Add(item);
         }
     }
+
 }

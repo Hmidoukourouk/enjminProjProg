@@ -18,7 +18,7 @@ public class PlayerTurret : NetworkBehaviour
     {
         if (!isLocalPlayer) enabled = false;
 
-        netIdentity.AssignClientAuthority(connectionToClient); // donner le controle au client
+         // donner le controle au client
 
         cam = Camera.main;
     }

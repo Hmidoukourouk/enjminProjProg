@@ -1,0 +1,27 @@
+...
+8 StaticMesh(s) | 0 SkeletalMesh(s) | 0 Alembic(s) | 0 Animation(s) | 0 Camera(s) | 0 Other(s)
+
+[StaticMesh] -> "SM_corner.fbx" exported in 0.015625 sec.
+F:\ENJMIN\unity\enjminProjProg\Assets\_GameAssets\3D\walls\ExportedFbx\StaticMesh\
+
+[StaticMesh] -> "SM_firstFloor.fbx" exported in 0.015625 sec.
+F:\ENJMIN\unity\enjminProjProg\Assets\_GameAssets\3D\walls\ExportedFbx\StaticMesh\
+
+[StaticMesh] -> "SM_base.fbx" exported in 0.046875 sec.
+F:\ENJMIN\unity\enjminProjProg\Assets\_GameAssets\3D\walls\ExportedFbx\StaticMesh\
+
+[StaticMesh] -> "SM_secondFloor.fbx" exported in 0.0 sec.
+F:\ENJMIN\unity\enjminProjProg\Assets\_GameAssets\3D\walls\ExportedFbx\StaticMesh\
+
+[StaticMesh] -> "SM_deuxiemeEtage.fbx" exported in 0.03125 sec.
+F:\ENJMIN\unity\enjminProjProg\Assets\_GameAssets\3D\walls\ExportedFbx\StaticMesh\
+
+[StaticMesh] -> "SM_cornerB.fbx" exported in 0.03125 sec.
+F:\ENJMIN\unity\enjminProjProg\Assets\_GameAssets\3D\walls\ExportedFbx\StaticMesh\
+
+[StaticMesh] -> "SM_simpleWall.fbx" exported in 0.015625 sec.
+F:\ENJMIN\unity\enjminProjProg\Assets\_GameAssets\3D\walls\ExportedFbx\StaticMesh\
+
+[StaticMesh] -> "SM_base1.fbx" exported in 0.015625 sec.
+F:\ENJMIN\unity\enjminProjProg\Assets\_GameAssets\3D\walls\ExportedFbx\StaticMesh\
+

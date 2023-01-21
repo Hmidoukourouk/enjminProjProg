@@ -7,8 +7,8 @@ public class PlayerShooting : NetworkBehaviour
 {
     public MainBullet baseBullet;
     public MortarBullet mortarBullet;
-    public List<MainBullet> bullets = new List<MainBullet>();
-    public List<MainBullet> bulletsInactive = new List<MainBullet>();
+    [SyncVar]public List<MainBullet> bullets = new List<MainBullet>();
+    [SyncVar]public List<MainBullet> bulletsInactive = new List<MainBullet>();
     public float poolnumber = 20;
     public int playerNumber;
 
@@ -21,6 +21,8 @@ public class PlayerShooting : NetworkBehaviour
     public Transform spawnPoint;
 
     [SerializeField] Animator feedback;
+
+    [SyncVar] bool isActivated = false;
 
     public override void OnStartLocalPlayer()
     {
@@ -36,6 +38,12 @@ public class PlayerShooting : NetworkBehaviour
 
     public void SpawnBullets()//elle est appelée par une fonction qui a deja le [Command]
     {
+        if (isActivated) {
+            return;
+        } //pas besion de spawn si c'est deja fait, juste on refait apparaître sur le serv pour tout le monde
+
+        isActivated = true;
+        Debug.Log("on spawn, on a a" + bullets.Count);
         bullets.Clear();
         bulletsInactive.Clear();
         if (canShoot && isServer)
@@ -46,12 +54,12 @@ public class PlayerShooting : NetworkBehaviour
                 {
                     case 0:
                         MainBullet bulletTemp = Instantiate(baseBullet);
-                        bulletTemp.Init(this);
+                        bulletTemp.Init(this, connectionToClient);
                         NetworkServer.Spawn(bulletTemp.gameObject);
                         break;
                     case 1:
                         MortarBullet mortarTemp = Instantiate(mortarBullet);
-                        mortarTemp.Init(this);
+                        mortarTemp.Init(this, connectionToClient);
                         NetworkServer.Spawn(mortarTemp.gameObject);
                         break;
                     default:
@@ -88,7 +96,6 @@ public class PlayerShooting : NetworkBehaviour
                 return;
             }
             bulletobj.clickedArea = turretRef.hitLocation;
-            bulletobj.gameObject.SetActive(true);
             bulletobj.Respawn(spawnPoint.position, spawnPoint.rotation);
             feedback.SetTrigger("Shot");
         }

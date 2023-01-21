@@ -7,6 +7,7 @@ public class MainBullet : NetworkBehaviour
 {
     public float speed = 2f;
     public bool alive;
+    [SerializeField] GameObject displayed;
     [HideInInspector] public bool isNotBaseBullet;
     public PlayerShooting owner;
 
@@ -18,6 +19,7 @@ public class MainBullet : NetworkBehaviour
     [HideInInspector] public Vector3 basePos;
     [HideInInspector] public float t;
     [HideInInspector] public float speedOffset = 0;
+    NetworkConnectionToClient con;
 
     void Update()
     {
@@ -44,7 +46,8 @@ public class MainBullet : NetworkBehaviour
                 {
                     if (shootingRef.playerNumber() != owner.playerNumber)
                     {
-                        shootingRef.TakeDamage(damage);
+                        Debug.Log(shootingRef);
+                        CastDmg(shootingRef);
                         Unregister();
                     }
                 }
@@ -53,22 +56,46 @@ public class MainBullet : NetworkBehaviour
 
     }
 
-    private void Awake()
+    [Command]
+    void CastDmg(PlayerControler shootingRef)
     {
-
+        shootingRef.TakeDmg(damage);
     }
 
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+        AssignAuth(con);
+        HideCast();
+    }
 
     public void Unregister()
     {
         alive = false;
         owner.bullets.Remove(this);
         owner.bulletsInactive.Add(this);
-        gameObject.SetActive(false);
+        displayed.SetActive(false);
+        HideCast();
     }
 
-    public void Respawn(Vector3 pos, Quaternion rota)
+    [ClientRpc]
+    void HideCast()
     {
+        displayed.SetActive(false);
+    }
+
+    [ClientRpc]
+    void ShowCast()
+    {
+        displayed.SetActive(true);
+    }
+
+
+    public void Respawn(Vector3 pos, Quaternion rota) //deja apelée depuis une command
+    {
+        ShowCast();
+        displayed.SetActive(true);
         transform.position = pos;
         transform.rotation = rota;
         alive = true;
@@ -83,24 +110,32 @@ public class MainBullet : NetworkBehaviour
         Unregister();
     }
 
-    public void Init(PlayerShooting playerShootingRef)
+    public void Init(PlayerShooting playerShootingRef, NetworkConnectionToClient conec)
     {
         owner = playerShootingRef;
         owner.bulletsInactive.Add(this);
-        gameObject.SetActive(false);
+        displayed.SetActive(false);
         SoftReset();
 
         InitCast(playerShootingRef);
+
+        con = conec;
     }
 
-    [Command]
+    void AssignAuth(NetworkConnectionToClient con)
+    {
+        netIdentity.AssignClientAuthority(con);
+    }
+
     void InitCast(PlayerShooting playerShootingRef)
     {
+        //HideCast();
         owner = playerShootingRef;
         owner.bulletsInactive.Add(this);
-        gameObject.SetActive(false);
+        displayed.SetActive(false);
         SoftReset();
     }
+
 
     void SoftReset()
     {

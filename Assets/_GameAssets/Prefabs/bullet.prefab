@@ -49,9 +49,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 574621bdbe1efc946bdbfce9558948d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   speed: 30
   alive: 0
+  displayed: {fileID: 4890385809354272300}
+  isNotBaseBullet: 0
   owner: {fileID: 0}
+  damage: 5
+  clickedArea: {x: 0, y: 0, z: 0}
+  basePos: {x: 0, y: 0, z: 0}
+  t: 0
+  speedOffset: 0
 --- !u!65 &3627354564470893154
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -215,6 +225,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6351caebd4d2d5e419ad06efdc6395a6, type: 3}
+--- !u!1 &4890385809354272300 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6351caebd4d2d5e419ad06efdc6395a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5701357198884541309}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5230354098047186070 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6351caebd4d2d5e419ad06efdc6395a6,
