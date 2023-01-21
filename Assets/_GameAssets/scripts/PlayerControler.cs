@@ -68,15 +68,15 @@ public class PlayerControler : NetworkBehaviour
         Debug.Log(health);
         health -= damage;
 
-        ActualizeHUD();
+        ActualizeHUD(health);//sinon ça prend la valeur d'avant pour la display donc cringe pas synchro
     }
 
    
     [ClientRpc]
-    void ActualizeHUD()
+    void ActualizeHUD(float h)
     {
-        imgHeath.transform.localScale = new Vector2(healthMax / health, imgHeath.transform.localScale.y);
-        if (health <= 0)
+        imgHeath.transform.localScale = new Vector2(h/healthMax, imgHeath.transform.localScale.y);
+        if (h <= 5)
         {
             imgHeath.color = Color.red;
         }
